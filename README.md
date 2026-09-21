@@ -1,4 +1,16 @@
 # pomctl
+```
+                                               .-.-.     
+                                          ((  (__I__)  ))
+                                            .'_....._'.  
+ ___    _____         ___    _____  _      / / .12 . \ \ 
+(  _`\ (  _  )/'\_/`\(  _`\ (_   _)( )    | | '  |  ' | |
+| |_) )| ( ) ||     || ( (_)  | |  | |    | | 9  /  3 | |
+| ,__/'| | | || (_) || |  _   | |  | |  _  \ \ '.6.' / / 
+| |    | (_) || | | || (_( )  | |  | |_( )  '.`-...-'.'  
+(_)    (_____)(_) (_)(____/'  (_)  (____/'   /'-- --'\   
+                                            `"""""""""`  
+```
 
 A pomodoro timer for the terminal. It counts down in block digits, cycles
 through work and breaks on its own, and sends a notification when a phase is over.
