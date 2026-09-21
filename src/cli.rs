@@ -22,6 +22,12 @@ const TICK: Duration = Duration::from_millis(250);
 /// The longest phase that can be asked for, in minutes.
 const MAX_MINUTES: u64 = 24 * 60;
 
+/// The banner the help opens with, kept as art rather than as escaped strings.
+///
+/// It is the same art the readme opens with, and a test says so, because two
+/// copies of a drawing drift apart the moment one of them is redrawn.
+const ART: &str = include_str!("art.txt");
+
 /// Phase lengths, in minutes, as the command line gives them.
 ///
 /// Positional rather than flagged, and optional from the right, so the common
@@ -29,6 +35,9 @@ const MAX_MINUTES: u64 = 24 * 60;
 #[derive(Debug, Parser, PartialEq, Eq)]
 #[command(
     version,
+    // Trimmed because the file ends in a newline and clap adds its own, which
+    // together leave the description floating two blank lines below the art.
+    before_help = ART.trim_end(),
     about = "A pomodoro timer for the terminal",
     // Without this the doc comment above becomes the long help, putting the
     // reasoning behind the argument shape in front of the user.
@@ -271,6 +280,36 @@ mod tests {
                 "{argument} gave {kind:?}"
             );
         }
+    }
+
+    #[test]
+    fn the_help_opens_with_the_banner() {
+        for help in [
+            Cli::command().render_help().to_string(),
+            Cli::command().render_long_help().to_string(),
+        ] {
+            assert!(
+                help.contains(ART.trim_end()),
+                "the art reached the help broken up, got {help}"
+            );
+        }
+    }
+
+    #[test]
+    fn the_banner_is_narrow_enough_that_clap_leaves_it_alone() {
+        // clap reflows help text at a fixed hundred columns while the
+        // `wrap_help` feature is off, which would tear the drawing apart.
+        let widest = ART.lines().map(str::chars).map(Iterator::count).max();
+        assert!(widest.is_some_and(|columns| columns <= 100), "{widest:?}");
+    }
+
+    #[test]
+    fn the_banner_is_the_one_the_readme_opens_with() {
+        let readme = include_str!("../README.md");
+        assert!(
+            readme.contains(ART.trim_end()),
+            "the readme and the help have drifted apart"
+        );
     }
 
     #[test]
