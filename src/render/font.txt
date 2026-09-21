@@ -1,0 +1,127 @@
+# Block font for the large countdown display.
+#
+# HOW TO ADD OR REPLACE A GLYPH
+#
+#   1. Find the "@ x" line for the character, or add a new one.
+#   2. Paste the art on the lines below it. That is all.
+#
+# A line starting with "@" declares which character the following rows draw.
+# Every line until the next "@" is a row of that glyph. Lines starting with
+# "#" are comments and are skipped.
+#
+# You do not have to line anything up. Rows are padded on the right to the
+# widest row in their own glyph, so an editor that strips trailing spaces
+# cannot break the art. Leading spaces ARE significant: they position the
+# glyph horizontally.
+#
+# Trailing blank rows are stripped, and a glyph with fewer rows than the
+# tallest is then padded at the TOP. Short art therefore sits on the baseline
+# rather than floating. The consequence for the colon below is that it cannot
+# be written with a blank bottom row: it carries ink on its last row so that
+# it parses at full height and keeps the spacing drawn here.
+#
+# Glyphs may differ in width from each other. They should not differ in
+# height: a taller glyph raises the height of every frame. Characters with no
+# glyph here render as blank space.
+#
+# `cargo test` checks that this file parses, that every glyph is the same
+# height, and that nothing a clock needs is missing.
+
+@ 0
+   ▄▄▄▄
+  ██▀▀██
+ ██    ██
+ ██ ██ ██
+ ██    ██
+  ██▄▄██
+   ▀▀▀▀
+
+@ 1
+   ▄▄▄
+  █▀██
+    ██
+    ██
+    ██
+ ▄▄▄██▄▄▄
+ ▀▀▀▀▀▀▀▀
+
+@ 2
+  ▄▄▄▄▄
+ █▀▀▀▀██▄
+       ██
+     ▄█▀
+   ▄█▀
+ ▄██▄▄▄▄▄
+ ▀▀▀▀▀▀▀▀
+
+@ 3
+  ▄▄▄▄▄
+ █▀▀▀▀██▄
+      ▄██
+   █████
+      ▀██
+ █▄▄▄▄██▀
+  ▀▀▀▀▀
+
+@ 4
+     ▄▄▄
+    ▄███
+   █▀ ██
+ ▄█▀  ██
+ ████████
+      ██
+      ▀▀
+
+@ 5
+ ▄▄▄▄▄▄▄
+ ██▀▀▀▀▀
+ ██▄▄▄▄
+ █▀▀▀▀██▄
+       ██
+ █▄▄▄▄██▀
+  ▀▀▀▀▀
+
+@ 6
+   ▄▄▄▄
+  ██▀▀▀█
+ ██ ▄▄▄
+ ███▀▀██▄
+ ██    ██
+ ▀██▄▄██▀
+   ▀▀▀▀
+
+@ 7
+ ▄▄▄▄▄▄▄▄
+ ▀▀▀▀▀███
+     ▄██
+     ██
+    ██
+   ██
+  ▀▀
+
+@ 8
+   ▄▄▄▄
+ ▄██▀▀██▄
+ ██▄  ▄██
+  ██████
+ ██▀  ▀██
+ ▀██▄▄██▀
+   ▀▀▀▀
+
+@ 9
+  ▄▄▄▄
+ ▄██▀▀██▄
+ ██    ██
+ ▀██▄▄███
+   ▀▀▀ ██
+  █▄▄▄██
+   ▀▀▀▀
+
+@ :
+
+ ██
+ ▀▀
+
+
+ ██
+ ▀▀
