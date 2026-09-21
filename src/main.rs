@@ -1,5 +1,8 @@
 use std::process::ExitCode;
 
+use clap::Parser;
+use pomctl::cli::{self, Cli};
+
 fn main() -> ExitCode {
-    pomctl::cli::run(std::env::args().skip(1))
+    cli::run(Cli::parse())
 }

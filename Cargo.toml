@@ -15,6 +15,7 @@ name = "pomctl"
 path = "src/main.rs"
 
 [dependencies]
+clap = { version = "4", features = ["derive"] }
 crossterm = "0.29"
 
 [profile.release]

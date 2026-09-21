@@ -1,8 +1,7 @@
 # pomctl
 
 A pomodoro timer for the terminal. It counts down in block digits, cycles
-through work and breaks on its own, and tells the desktop when a phase is over.
-Nothing is written to disk: no tasks, no history, no config file.
+through work and breaks on its own, and sends a notification when a phase is over.
 
 ```
                             WORK 1/4
@@ -23,7 +22,7 @@ Nothing is written to disk: no tasks, no history, no config file.
 ## Install
 
 ```sh
-cargo install --path .
+cargo install pomctl
 ```
 
 ## Use
@@ -60,12 +59,9 @@ notify-send -u normal -t 5000 -i utilities-terminal pomctl 'Break time — 5 min
 paplay /usr/share/sounds/freedesktop/stereo/complete.oga
 ```
 
-Being called back to work is sent as `critical` so a do-not-disturb rule does
-not hold it back. Both commands are optional at runtime: if neither is
+Being called back to work is sent as `critical` so do not disturb rules does
+not hold them back. Both commands are optional at runtime: if they are not
 installed the timer runs on in silence.
-
-That makes this Linux-only as it stands. Porting it means changing those two
-command names in `src/notify.rs` and nothing else.
 
 ## Piped output
 
@@ -81,9 +77,9 @@ work 25:00
 
 ## Building on it
 
-`src/render/font.txt` is the block font, as art rather than as escaped strings.
+`src/render/font.txt` is the block font.
 To change a digit, paste over it; `cargo test` checks that every glyph is the
 same height and that nothing a clock needs is missing.
 
-The font and the screen handling come from
+Btw the font is the same as other project of mine:
 [faster-cli](https://github.com/CfM47/faster-cli).
