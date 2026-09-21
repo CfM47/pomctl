@@ -1,0 +1,23 @@
+[package]
+name = "pomctl"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+description = "Terminal pomodoro timer with desktop notifications"
+repository = "https://github.com/CfM47/pomctl"
+license = "MIT"
+readme = "README.md"
+keywords = ["cli", "pomodoro", "timer", "tui", "productivity"]
+categories = ["command-line-utilities"]
+
+[[bin]]
+name = "pomctl"
+path = "src/main.rs"
+
+[dependencies]
+crossterm = "0.29"
+
+[profile.release]
+codegen-units = 1
+lto = true
+strip = true
