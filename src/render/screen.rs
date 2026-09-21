@@ -50,7 +50,7 @@ impl Screen {
 
     /// Returns the frame size in columns and rows.
     pub fn size(&self) -> (u16, u16) {
-        size().unwrap_or(FALLBACK_SIZE)
+        usable(size().unwrap_or(FALLBACK_SIZE))
     }
 
     /// Waits up to `timeout` for a key press.
@@ -85,10 +85,41 @@ impl Screen {
     }
 }
 
+/// Replaces a size nothing can be drawn in with one that can.
+///
+/// A pty opened without a window size, as a test harness or a `script` run
+/// does, reports zero columns and rows. A frame of no rows paints nothing at
+/// all, which reads as a hung timer rather than as a window too small.
+fn usable((width, height): (u16, u16)) -> (u16, u16) {
+    if width == 0 || height == 0 {
+        FALLBACK_SIZE
+    } else {
+        (width, height)
+    }
+}
+
 impl Drop for Screen {
     fn drop(&mut self) {
         let _ = self.output.execute(Show);
         let _ = self.output.execute(LeaveAlternateScreen);
         let _ = disable_raw_mode();
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn a_real_terminal_size_is_used_as_it_is() {
+        assert_eq!(usable((120, 40)), (120, 40));
+    }
+
+    #[test]
+    fn a_pty_with_no_window_size_is_drawn_at_the_fallback() {
+        // Zero rows would paint an empty frame, which looks like a hang.
+        assert_eq!(usable((0, 0)), FALLBACK_SIZE);
+        assert_eq!(usable((80, 0)), FALLBACK_SIZE);
+        assert_eq!(usable((0, 24)), FALLBACK_SIZE);
     }
 }
