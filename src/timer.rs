@@ -64,8 +64,6 @@ impl Default for Plan {
 /// One phase giving way to the next.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct Transition {
-    /// The phase whose time ran out.
-    pub finished: Phase,
     /// The phase now running.
     pub started: Phase,
     /// How long the new phase lasts, for saying so in the notification.
@@ -142,7 +140,9 @@ impl Timer {
     pub fn remaining(&self, now: Instant) -> Duration {
         match self.since {
             None => self.remaining,
-            Some(since) => self.remaining.saturating_sub(now.saturating_duration_since(since)),
+            Some(since) => self
+                .remaining
+                .saturating_sub(now.saturating_duration_since(since)),
         }
     }
 
@@ -164,7 +164,6 @@ impl Timer {
         self.enter(self.next_phase(), now);
 
         Some(Transition {
-            finished,
             started: self.phase,
             length: self.length,
         })
@@ -280,10 +279,13 @@ mod tests {
         let mut timer = Timer::start(plan(), at);
 
         let to_break = finish_phase(&mut timer, &mut at);
-        assert_eq!(to_break.finished, Phase::Work);
         assert_eq!(to_break.started, Phase::Break);
         assert_eq!(to_break.length, 5 * MINUTE);
-        assert_eq!(timer.session(), 1, "the break belongs to the work before it");
+        assert_eq!(
+            timer.session(),
+            1,
+            "the break belongs to the work before it"
+        );
 
         let to_work = finish_phase(&mut timer, &mut at);
         assert_eq!(to_work.started, Phase::Work);

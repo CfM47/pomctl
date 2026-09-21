@@ -65,7 +65,10 @@ mod tests {
             Some(Command::Quit)
         );
         assert_eq!(
-            press_with(KeyCode::Char('C'), KeyModifiers::CONTROL | KeyModifiers::SHIFT),
+            press_with(
+                KeyCode::Char('C'),
+                KeyModifiers::CONTROL | KeyModifiers::SHIFT
+            ),
             Some(Command::Quit)
         );
     }
